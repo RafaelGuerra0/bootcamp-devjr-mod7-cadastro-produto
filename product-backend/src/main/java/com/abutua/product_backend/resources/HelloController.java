@@ -10,7 +10,7 @@ public class HelloController {
     
     @GetMapping("hello")
     public String getHello(){
-        return "Hello Spring Boot";
+        return "Hello Spring Boot!";
 
     }
 }
