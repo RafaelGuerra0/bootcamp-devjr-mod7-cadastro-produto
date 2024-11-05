@@ -21,10 +21,7 @@ public class ProductController {
 
     @PostConstruct // apos a construcao do objeto product controller, o metodo init() sera chamado
     public void init() {
-        Product p1 = new Product();
-        p1.setId(1);
-        p1.setName("Product 01");
-        p1.setPrice(100.50);
+        Product p1 = new Product(1,"Product 01",100.50);
 
         Product p2 = new Product();
         p2.setId(2);
