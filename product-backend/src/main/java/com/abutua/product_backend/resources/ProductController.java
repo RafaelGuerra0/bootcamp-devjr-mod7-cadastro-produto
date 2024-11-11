@@ -1,6 +1,6 @@
 package com.abutua.product_backend.resources;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -12,13 +12,24 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.abutua.product_backend.models.Product;
 
-import jakarta.annotation.PostConstruct;
-
 @RestController
 public class ProductController {
 
-    private List<Product> products = new ArrayList<>();
+    //private List<Product> products = new ArrayList<>();
 
+    //--------------------------------------------------------------
+    // private List<Product> products = Arrays.asList( new Product(1,"Product 01",100.50),
+    //                                                 new Product(2,"Product 02",200.50),
+    //                                                 new Product(3,"Product 03",100.50)
+    // );
+    CategoryController catController = new CategoryController();
+    private List<Product> products = Arrays.asList( new Product("Product 01", 100.50,"Product 1 with following characteristics:....01",catController.getCategoryById(1),true,true),
+                                                    new Product("Product 02", 200.50,"Product 2 with following characteristics:....02",catController.getCategoryById(2),false,true),
+                                                    new Product("Product 03", 300.50,"Product 3 with following characteristics:....03",catController.getCategoryById(3),true,false),
+                                                    new Product("Product 04", 400.50,"Product 4 with following characteristics:....04",catController.getCategoryById(1),false,false)
+    );
+
+    /*
     @PostConstruct // apos a construcao do objeto product controller, o metodo init() sera chamado
     public void init() {
         Product p1 = new Product(1,"Product 01",100.50);
@@ -37,6 +48,8 @@ public class ProductController {
         products.add(p2);
         products.add(p3);
     }
+    */
+
 
     @GetMapping("products/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable int id) {    // @PathVariable pega a variavel que veio no caminho la no endpoint, no caso, variavel id
