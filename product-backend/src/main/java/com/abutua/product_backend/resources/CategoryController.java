@@ -13,7 +13,10 @@ import org.springframework.web.server.ResponseStatusException;
 import com.abutua.product_backend.models.Category;
 
 
+
+
 @RestController
+
 public class CategoryController {
 
     private List<Category> categories = Arrays.asList( new Category(1,"Produção Própria"),

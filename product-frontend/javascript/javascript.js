@@ -28,8 +28,10 @@ function FuncAddProd(){
 
 
 }
-
-
+var products = [
+    
+];
+/*
 var products = [
     {
         id: 1,
@@ -59,6 +61,7 @@ var products = [
         newProduct: true
     }
 ];
+*/
 // usar o do java
 var categories = [
     {id:1, name: "Producao Propria"},
@@ -67,6 +70,7 @@ var categories = [
 ];
 
 
+/*
 LoadProducts();
 function  LoadProducts(){
     for(let prod of products){
@@ -74,6 +78,23 @@ function  LoadProducts(){
     }
 
 }
+*/
+
+
+function  LoadProducts(){
+    $.getJSON("http://localhost:8080/products",(response) =>{
+        
+        for(let prod of response){
+            AddNewRow(prod);
+        }
+
+
+
+    });
+    
+
+}
+LoadProducts();
 function AddNewRow(prod){
     var table = document.getElementById("productsTable");
     
@@ -91,7 +112,7 @@ function AddNewRow(prod){
     var priceNode = document.createTextNode(prod.price);
     newRow.insertCell().appendChild(priceNode);
 
-    var categoryNode = document.createTextNode(categories[prod.category-1].name);
+    var categoryNode = document.createTextNode(categories[prod.idCategory-1].name);
     newRow.insertCell().appendChild(categoryNode);
 
     var options = '';
@@ -99,8 +120,8 @@ function AddNewRow(prod){
         options = '<span class = "badge bg-success">P</span>';
 
     }
-    if (prod.newProduct){
-        options = '<span class = "badge bg-primary">L</span>';
+    if (prod.onRelease){
+        options += '<span class = "badge bg-primary">L</span>';
 
     }
     newRow.insertCell().innerHTML+=options;

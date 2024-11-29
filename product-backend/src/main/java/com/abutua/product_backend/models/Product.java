@@ -1,13 +1,15 @@
 package com.abutua.product_backend.models;
+
 public class Product {
     //atributos
     private int id;
     private String name;
     private double price;
     private String description;
-    private Category category;
+   // private Category category;
+    private int idCategory;
     private boolean onSale;
-    private boolean isOnRelease;
+    private boolean OnRelease;
     
 
     //contador indice
@@ -26,36 +28,38 @@ public class Product {
 
         
     }
-    AutoIncrementerIndex incr = new AutoIncrementerIndex();
-    public Product(String name, double price, String description, Category category, boolean onSale, boolean isOnRealease){
+  
+    
+
+    public Product(int id, String name, double price, String description, int idCategory, boolean onSale, boolean OnRealease){
+        this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
-        this.category = category;
+        this.idCategory = idCategory;
         this.onSale =onSale;
-        this.isOnRelease = isOnRealease;
-        this.id = incr.getNextIndex();
-
-    }
-
-
-
-    //metodos    
+        this.OnRelease = OnRealease;
+    } 
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public double getPrice() {
         return price;
     }
+
     public void setPrice(double price) {
         this.price = price;
     }
@@ -68,12 +72,12 @@ public class Product {
         this.description = description;
     }
 
-    public Category getCategory() {
-        return category;
+    public int getIdCategory() {
+        return idCategory;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setIdCategory(int idCategory) {
+        this.idCategory = idCategory;
     }
 
     public boolean isOnSale() {
@@ -84,16 +88,13 @@ public class Product {
         this.onSale = onSale;
     }
 
-    public boolean isIsOnRelease() {
-        return isOnRelease;
+    public boolean isOnRelease() {
+        return OnRelease;
     }
 
-    public void setIsOnRelease(boolean isOnRelease) {
-        this.isOnRelease = isOnRelease;
+    public void setOnRelease(boolean isOnRelease) {
+        this.OnRelease = isOnRelease;
     }
-
-
-    
 
 
 }
