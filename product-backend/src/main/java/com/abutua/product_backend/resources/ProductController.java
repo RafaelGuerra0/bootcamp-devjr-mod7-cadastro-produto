@@ -1,6 +1,7 @@
 package com.abutua.product_backend.resources;
 
-import java.util.Arrays;
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -8,10 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.abutua.product_backend.models.Product;
+
 
 @RestController
 @CrossOrigin
@@ -25,11 +30,18 @@ public class ProductController {
     //                                                 new Product(3,"Product 03",100.50)
     // );
     CategoryController catController = new CategoryController();
-    private List<Product> products = Arrays.asList( new Product(1,"Product 01", 100.50,"Product 1 with following characteristics:....01",1,true,true),
-                                                    new Product(2,"Product 02", 200.50,"Product 2 with following characteristics:....02",2,false,true),
-                                                   // new Product(3,"Product 03", 300.50,"Product 3 with following characteristics:....03",catController.getCategoryById(3),true,false),
-                                                   new Product(3,"Product 03", 300.50,"Product 3 03",3,true,false)
-    );
+    private List<Product> products = new ArrayList<>();
+
+
+
+    //arrays as list a lista tem tamanho fixo e nao pode ser adicionado nada depois
+    // Arrays.asList( new Product(1,"Product 01", 100.50,"Product 1 with following characteristics:....01",1,true,true),
+    //                                                 new Product(2,"Product 02", 200.50,"Product 2 with following characteristics:....02",2,false,true),
+    //                                                // new Product(3,"Product 03", 300.50,"Product 3 with following characteristics:....03",catController.getCategoryById(3),true,false),
+    //                                                new Product(3,"Product 03", 300.50,"Product 3 03",3,true,false),
+    //                                                new Product(4,"Product 04", 400.50,"Product 4 04",4,false,false)
+    //
+    //);
 
     /*
     @PostConstruct // apos a construcao do objeto product controller, o metodo init() sera chamado
@@ -51,7 +63,21 @@ public class ProductController {
         products.add(p3);
     }
     */
+    @PostMapping("products")
+    public ResponseEntity<Product> save(@RequestBody Product product) {
+        product.setId(products.size()+1);
+        products.add(product);
 
+        URI location = ServletUriComponentsBuilder
+        .fromCurrentRequest()
+        .path("/{id}")
+        .buildAndExpand(product.getId())
+        .toUri();
+
+
+        return ResponseEntity.created(location).body(product);
+    }
+    
 
     @GetMapping("products/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable int id) {    // @PathVariable pega a variavel que veio no caminho la no endpoint, no caso, variavel id

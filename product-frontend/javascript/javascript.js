@@ -28,6 +28,56 @@ function FuncAddProd(){
 
 
 }
+
+
+function save(){
+    var prod = {
+        id: products.lenght+1,
+        name: document.getElementById("name").value,
+        description: document.getElementById("description").value,
+        price:  Number(document.getElementById("price").value),
+        idCategory: document.getElementById("categorySelection").value,
+        onSale: document.getElementById("sale").checked,
+        onRelease: document.getElementById("launching").checked
+    }
+
+
+    $.ajax({
+        url:"http://localhost:8080/products",
+        contentType: "application/json",
+        type:"POST",
+        async: true,
+        data: JSON.stringify(prod),
+        success:(product) =>{
+            AddNewRow(product);
+            products.push(product);
+            
+            
+            document.getElementById("name").value='';
+            document.getElementById("description").value='';
+            document.getElementById("price").value='';
+            document.getElementById("categorySelection").value='';
+            document.getElementById("sale").value='';
+            document.getElementById("launching").value='';
+
+
+    }
+
+
+});
+
+
+
+
+
+
+    
+
+
+}
+
+
+
 var products = [
     
 ];
@@ -64,9 +114,7 @@ var products = [
 */
 // usar o do java
 var categories = [
-    {id:1, name: "Producao Propria"},
-    {id:2, name: "Nacional"},
-    {id:3, name: "Importado"}
+
 ];
 
 
@@ -79,12 +127,31 @@ function  LoadProducts(){
 
 }
 */
+loadCategories();
+loadProducts();
 
-
-function  LoadProducts(){
-    $.getJSON("http://localhost:8080/products",(response) =>{
+function loadCategories(){
+    $.ajax({
+            url:"http://localhost:8080/categories",
+            type:"GET",
+            async: false,
+            success:(response) =>{
+            categories = response;
+            for (var cat of categories){
+                document.getElementById("categorySelection").innerHTML+= `<option value=${cat.id}>${cat.name}</option>`;
         
-        for(let prod of response){
+            }
+        }
+
+
+    });
+
+
+}
+function  loadProducts(){
+    $.getJSON("http://localhost:8080/products",(response) =>{
+        products = response;
+        for(let prod of products){
             AddNewRow(prod);
         }
 
@@ -94,7 +161,9 @@ function  LoadProducts(){
     
 
 }
-LoadProducts();
+
+
+
 function AddNewRow(prod){
     var table = document.getElementById("productsTable");
     
